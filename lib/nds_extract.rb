@@ -34,20 +34,14 @@ end
 # Your code after this point
 
 def movies_with_director_key(name, movies_collection)
-  # GOAL: For each Hash in an Array (movies_collection), provide a collection
-  # of movies and a directors name to the movie_with_director_name method
-  # and accumulate the returned Array of movies into a new Array that's
-  # returned by this method.
-  #
-  # INPUT:
-  # * name: A director's name
-  # * movies_collection: An Array of Hashes where each Hash represents a movie
-  #
-  # RETURN:
-  #
-  # Array of Hashes where each Hash represents a movie; however, they should all have a
-  # :director_name key. This addition can be done by using the provided
-  # movie_with_director_name method
+  updated_movies = []
+  index = 0 
+  while index < movies_collection.length do 
+    current_movie_data = movie_with_director_name(name, movies_collection[index])
+    updated_movies.push(current_movie_data)
+    index += 1 
+  end
+  updated_movies
 end
 
 
@@ -63,7 +57,23 @@ def gross_per_studio(collection)
   #
   # Hash whose keys are the studio names and whose values are the sum
   # total of all the worldwide_gross numbers for every movie in the input Hash
+  
+  gross_per_studio = {}
+  index = 0 
+  while index < collection.length do 
+    current_gross = 0 
+    current_studio = collection[index][:studio]
+    current_gross = collection[index][:worldwide_gross]
+    if gross_per_studio[current_studio] == nil
+      gross_per_studio[current_studio] = current_gross
+    else
+      gross_per_studio[current_studio] += current_gross
+    end
+    index += 1 
+  end
+  gross_per_studio
 end
+
 
 def movies_with_directors_set(source)
   # GOAL: For each director, find their :movies Array and stick it in a new Array
@@ -76,6 +86,15 @@ def movies_with_directors_set(source)
   #
   # Array of Arrays containing all of a director's movies. Each movie will need
   # to have a :director_name key added to it.
+  
+  movies_with_directors_set = []
+  row_index = 0 
+  while row_index < source.length do 
+    name = source[row_index][:name]
+    movies_with_directors_set.push(movies_with_director_key(name, source[row_index][:movies]))
+    row_index += 1 
+  end
+  movies_with_directors_set
 end
 
 # ----------------    End of Your Code Region --------------------
